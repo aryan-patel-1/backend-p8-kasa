@@ -1,2 +1,6 @@
 node_modules
 .idea
+
+# Variables d'environnement locales
+.env*
+!.env.example

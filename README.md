@@ -28,22 +28,28 @@ Ce projet fournit une API HTTP permettant de :
 Le serveur est écrit avec Express 5 et persiste les données dans un fichier SQLite. Les routes sont sécurisées par des middlewares d’authentification/autorisation basés sur JWT.
 
 ## Prérequis
-- Node.js 18+ (recommandé)
+- Node.js 20.6+ pour le chargement natif des fichiers `.env`
 - npm
 
 ## Installation & démarrage
 1. Installer les dépendances:
    - npm install
-2. Lancer le serveur:
+2. Lancer le serveur local:
+   - npm run dev
+3. Lancer le serveur avec la configuration de production:
    - npm start
-3. Le serveur écoute par défaut sur http://localhost:3000 (configurable via PORT).
+4. Le serveur écoute par défaut sur http://localhost:3000 (configurable via PORT).
 
 ## Configuration (variables d’environnement)
-- PORT: port d’écoute HTTP (par défaut 3000).
-- JWT_SECRET: secret pour signer/vérifier les tokens JWT (par défaut "change-me-in-prod"). En production, définissez une valeur forte et secrète.
+- `.env.development` est chargé par `npm run dev`.
+- `.env.production` est chargé par `npm start`.
+- `NODE_ENV` choisit le comportement local ou production.
+- `PORT` définit le port d’écoute HTTP.
+- `JWT_SECRET` signe et vérifie les tokens JWT. Remplacez impérativement la valeur d’exemple en production.
+- `JWT_EXPIRES_IN` définit la durée de validité des tokens.
 
-Vous pouvez lancer le serveur avec, par exemple:
-- JWT_SECRET="votre-secret" PORT=3000 npm start
+Les fichiers `.env.development` et `.env.production` restent ignorés par Git.
+Copiez `.env.example` pour recréer une configuration manquante.
 
 ## Base de données & données de démo
 - SGBD: SQLite, fichier: data/kasa.sqlite3
