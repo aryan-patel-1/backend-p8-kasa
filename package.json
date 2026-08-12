@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "node --env-file=.env.development ./bin/www",
-    "start": "node --env-file=.env.production ./bin/www"
+    "start": "node --env-file=.env.production ./bin/www",
+    "test": "node --test"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

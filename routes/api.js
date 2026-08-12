@@ -8,6 +8,7 @@ const users = require('../controllers/usersController');
 const ratings = require('../controllers/ratingsController');
 const favorites = require('../controllers/favoritesController');
 const uploads = require('../controllers/uploadsController');
+const conversations = require('../controllers/conversationsController');
 
 // Ensure DB is ready for all API routes
 router.use(dbReady);
@@ -33,6 +34,12 @@ router.post('/properties/:id/ratings', ratings.add);
 router.post('/properties/:id/favorite', requireAuth, favorites.addForProperty);
 router.delete('/properties/:id/favorite', requireAuth, favorites.removeForProperty);
 router.get('/users/:id/favorites', requireSelfOrAdmin('id'), favorites.listForUser);
+
+// Conversations
+router.get('/conversations', requireAuth, conversations.list);
+router.post('/conversations', requireAuth, conversations.create);
+router.get('/conversations/:id', requireAuth, conversations.getById);
+router.post('/conversations/:id/messages', requireAuth, conversations.createMessage);
 
 // Uploads
 router.post('/uploads/image', requireRole(['owner','admin']), uploads.uploadImage);

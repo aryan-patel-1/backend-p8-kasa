@@ -1,6 +1,6 @@
 # Kasa Backend (API Express + SQLite)
 
-Backend minimaliste pour l’application Kasa. Il expose une API REST (Express 5) documentée via OpenAPI, utilise SQLite pour le stockage des données, gère l’authentification par JWT et propose des fonctionnalités autour des biens (propriétés), des utilisateurs, des notes (ratings), des favoris, ainsi que l’upload et la suppression d’images.
+Backend minimaliste pour l’application Kasa. Il expose une API REST (Express 5) documentée via OpenAPI, utilise SQLite pour le stockage des données, gère l’authentification par JWT et propose des fonctionnalités autour des biens (propriétés), des utilisateurs, des notes (ratings), des favoris, des conversations, ainsi que l’upload et la suppression d’images.
 
 ## Sommaire
 - Présentation
@@ -23,6 +23,7 @@ Ce projet fournit une API HTTP permettant de :
 - Gérer des utilisateurs et leurs informations publiques.
 - Ajouter des notes (ratings) sur les propriétés.
 - Gérer des favoris (properties préférées) par utilisateur connecté.
+- Créer des conversations et envoyer des messages entre utilisateurs.
 - Envoyer des images et récupérer une URL publique; supprimer une ou plusieurs images et nettoyer leurs références en base.
 
 Le serveur est écrit avec Express 5 et persiste les données dans un fichier SQLite. Les routes sont sécurisées par des middlewares d’authentification/autorisation basés sur JWT.
@@ -54,7 +55,7 @@ Copiez `.env.example` pour recréer une configuration manquante.
 ## Base de données & données de démo
 - SGBD: SQLite, fichier: data/kasa.sqlite3
 - À l’initialisation, le schéma est créé automatiquement. Si aucune propriété n’existe, un seed est effectué depuis data/properties.json (si présent).
-- Le schéma inclut: users, properties, property_pictures, property_equipments, property_tags, ratings, favorites.
+- Le schéma inclut: users, properties, property_pictures, property_equipments, property_tags, ratings, favorites, conversations et messages.
 - Les slugs des propriétés sont générés automatiquement et uniques.
 
 Sauvegarde: le fichier SQLite (data/kasa.sqlite3) est persistant. Pour repartir de zéro, stoppez le serveur et supprimez ce fichier (et relancez pour recréer/seed).
@@ -97,6 +98,11 @@ Base: /api
 - POST /api/properties/:id/favorite: ajouter aux favoris (utilisateur connecté)
 - DELETE /api/properties/:id/favorite: retirer des favoris (utilisateur connecté)
 - GET /api/users/:id/favorites: lister les favoris d’un utilisateur (self ou admin)
+
+- GET /api/conversations: lister les conversations du compte connecté
+- POST /api/conversations: retrouver ou créer une conversation avec un utilisateur
+- GET /api/conversations/:id: consulter une conversation autorisée
+- POST /api/conversations/:id/messages: envoyer un message dans une conversation autorisée
 
 - POST /api/uploads/image: uploader une image (rôle: owner ou admin). Répond avec une URL publique /uploads/... et des instructions pour l’utiliser (cover, gallery, etc.).
 - DELETE /api/uploads/images: supprimer une ou plusieurs images (rôle: owner ou admin). Accepte des noms de fichiers ou des URLs; nettoie les références en base.
